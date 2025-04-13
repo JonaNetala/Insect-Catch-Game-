@@ -1,9 +1,12 @@
+/* Import original font */
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
 
+/* Maintain original box-sizing */
 * {
   box-sizing: border-box;
 }
 
+/* Set consistent background color for all screens with animation */
 body {
   background-color: #516dff;
   color: #fff;
@@ -12,8 +15,70 @@ body {
   overflow: hidden;
   margin: 0;
   text-align: center;
+  animation: backgroundPulse 10s infinite;
 }
 
+/* Color transition for background */
+@keyframes backgroundPulse {
+  0% { background-color: #516dff; }
+  50% { background-color: #4257d5; }
+  100% { background-color: #516dff; }
+}
+
+/* Background animation overlay */
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(81, 109, 255, 0), rgba(81, 109, 255, 0.3));
+  opacity: 0.5;
+  z-index: -1;
+  animation: backgroundMove 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes backgroundMove {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Original link styling */
+a {
+  color: #fff;
+}
+
+/* Enhanced title with subtle animation */
+h1 {
+  line-height: 1.4;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  animation: pulse 2s infinite;
+}
+
+/* Subtle pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Game description styling */
+.game-description {
+  margin: 20px 0;
+  font-size: 0.8em;
+}
+
+/* Mode selection buttons styling */
+.mode-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+/* Button styling with enhancements */
 .btn {
   border: 0;
   background-color: #fff;
@@ -21,16 +86,43 @@ body {
   padding: 15px 20px;
   font-family: inherit;
   cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 200px;
 }
 
 .btn:hover {
   opacity: 0.9;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn:focus {
   outline: 0;
 }
 
+.btn:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.btn:hover:after {
+  left: 100%;
+}
+
+/* Screen styling and transitions */
 .screen {
   display: flex;
   flex-direction: column;
@@ -39,24 +131,34 @@ body {
   height: 100vh;
   width: 100vw;
   transition: margin 0.5s ease-out;
+  position: relative;
+  background-color: transparent; /* Uses body background instead */
 }
 
 .screen.up {
-  margin-top: -200vh; /* Default to third screen */
+  margin-top: -100vh;
 }
 
+/* Insects list styling */
 .insects-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   list-style-type: none;
   padding: 0;
+  gap: 20px;
 }
 
 .insects-list li {
   margin: 10px;
+  transition: transform 0.3s ease;
 }
 
+.insects-list li:hover {
+  transform: scale(1.05);
+}
+
+/* Insect button styling */
 .choose-insect-btn {
   background-color: transparent;
   border: 2px solid #fff;
@@ -64,27 +166,85 @@ body {
   cursor: pointer;
   font-family: inherit;
   width: 150px;
-  height: 150px;
-}
-
-.choose-insect-btn img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
+  height: 170px;
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .choose-insect-btn:hover {
   background-color: white;
   color: #516dff;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .choose-insect-btn:active {
   background-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(2px);
 }
 
+.choose-insect-btn p {
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 2;
+  font-weight: bold;
+}
+
+/* Insect image styling */
+.choose-insect-btn img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.choose-insect-btn:hover img {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Insect stats display */
+.insect-stats {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 10px;
+}
+
+.stat-label {
+  font-size: 8px;
+  text-align: left;
+  margin-bottom: 2px;
+}
+
+.stat-bar {
+  height: 4px;
+  background-color: #4caf50;
+  border-radius: 2px;
+}
+
+.stat-bar.power {
+  background-color: #f44336;
+}
+
+.stat-bar.speed {
+  background-color: #2196f3;
+}
+
+/* Game screen elements styling */
 .time, .score {
   position: absolute;
   top: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 102;
+  margin: 0;
 }
 
 .time {
@@ -93,14 +253,29 @@ body {
 
 .score {
   right: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
+/* Level indicator styling */
+.level-indicator {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  z-index: 101;
+}
+
+/* Message styling */
 .message {
   line-height: 1.7;
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   padding: 20px;
-  z-index: 100;
+  z-index: 5;
   text-align: center;
   opacity: 0;
   position: absolute;
@@ -108,6 +283,7 @@ body {
   left: 50%;
   transform: translate(-50%, -150%);
   transition: transform 0.4s ease-in;
+  pointer-events: none;
 }
 
 .message.visible {
@@ -115,6 +291,7 @@ body {
   opacity: 1;
 }
 
+/* Insect styling for game */
 .insect {
   cursor: pointer;
   display: flex;
@@ -125,12 +302,7 @@ body {
   position: absolute;
   transform: translate(-50%, -50%) scale(1);
   transition: transform 0.3s ease-in-out;
-
-  /* ⬇️ TEMPORARY debug fallback */
-  top: 200px;
-  left: 300px;
-
-  border: 2px solid yellow; /* ⬅️ TEMPORARY debug border */
+  z-index: 5;
 }
 
 .insect img {
@@ -138,6 +310,664 @@ body {
   height: 100px;
 }
 
+/* Animations for insect movement based on type */
+@keyframes flyMovement {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -5px) rotate(5deg); }
+  50% { transform: translate(0, 5px) rotate(-5deg); }
+  75% { transform: translate(-10px, -5px) rotate(5deg); }
+}
+
+@keyframes mosquitoMovement {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(15px, 0) rotate(10deg); }
+  50% { transform: translate(0, -10px) rotate(-10deg); }
+  75% { transform: translate(-15px, 5px) rotate(5deg); }
+}
+
+@keyframes spiderMovement {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(20px, 10px) rotate(-5deg); }
+  66% { transform: translate(-20px, 10px) rotate(5deg); }
+}
+
+@keyframes roachMovement {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(20px, 0) rotate(0deg); }
+  40% { transform: translate(20px, 20px) rotate(0deg); }
+  60% { transform: translate(0, 20px) rotate(0deg); }
+  80% { transform: translate(-20px, 0) rotate(0deg); }
+}
+
+/* Apply animations to each insect type */
+.insect img[alt="fly"] {
+  animation: flyMovement 2s infinite;
+}
+
+.insect img[alt="mosquito"] {
+  animation: mosquitoMovement 3s infinite;
+}
+
+.insect img[alt="spider"] {
+  animation: spiderMovement 4s infinite;
+}
+
+.insect img[alt="roach"] {
+  animation: roachMovement 5s infinite;
+}
+
+/* Caught insect animation base */
 .insect.caught {
   transform: translate(-50%, -50%) scale(0);
+}
+
+/* Custom catch animations for each insect type */
+@keyframes flyCaught {
+  0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+  30% { transform: translate(-50%, -50%) scale(1.3) rotate(180deg); filter: brightness(1.5); }
+  100% { transform: translate(-50%, -50%) scale(0); filter: brightness(0); }
+}
+
+@keyframes mosquitoCaught {
+  0% { transform: translate(-50%, -50%) scale(1); filter: hue-rotate(0deg); }
+  40% { transform: translate(-50%, -50%) scale(1.2) rotate(-90deg); filter: hue-rotate(180deg); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(0); filter: hue-rotate(0deg); opacity: 0; }
+}
+
+@keyframes spiderCaught {
+  0% { transform: translate(-50%, -50%) scale(1); filter: blur(0); }
+  20% { transform: translate(-50%, -50%) scale(1.2) rotate(45deg); filter: blur(0); }
+  40% { transform: translate(-50%, -50%) scale(0.8) rotate(-45deg); filter: blur(2px); }
+  60% { transform: translate(-50%, -50%) scale(1.2) rotate(45deg); filter: blur(0); }
+  80% { transform: translate(-50%, -50%) scale(0.8) rotate(-45deg); filter: blur(4px); }
+  100% { transform: translate(-50%, -50%) scale(0); filter: blur(8px); }
+}
+
+@keyframes roachCaught {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  15% { transform: translate(-60%, -50%) scale(1.1); }
+  30% { transform: translate(-40%, -50%) scale(1.1); }
+  45% { transform: translate(-60%, -50%) scale(1.1); }
+  60% { transform: translate(-40%, -50%) scale(1.1); }
+  75% { transform: translate(-50%, -50%) scale(1.2); filter: contrast(2); }
+  100% { transform: translate(-50%, -100%) scale(0.2); filter: contrast(0); opacity: 0; }
+}
+
+/* Apply animations to caught insects */
+.insect.caught img[alt="fly"] {
+  animation: flyCaught 1s forwards;
+}
+
+.insect.caught img[alt="mosquito"] {
+  animation: mosquitoCaught 1s forwards;
+}
+
+.insect.caught img[alt="spider"] {
+  animation: spiderCaught 1s forwards;
+}
+
+.insect.caught img[alt="roach"] {
+  animation: roachCaught 1s forwards;
+}
+
+/* Battle arena styling */
+.battle-arena {
+  background-color: #516dff;
+  transition: opacity 0.5s ease;
+}
+
+.battle-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 30px 0;
+}
+
+.player-stats, .enemy-stats {
+  flex-basis: 45%;
+}
+
+.player-stats h4, .enemy-stats h4 {
+  margin-bottom: 10px;
+  font-size: 0.8em;
+}
+
+.health-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #444;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 99;
+}
+
+.health-bar {
+  height: 100%;
+  width: 100%;
+  background-color: #4caf50;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.player-stats .health-bar {
+  background-color: #2196f3;
+}
+
+.enemy-stats .health-bar {
+  background-color: #f44336;
+}
+
+.battle-message {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+  min-height: 50px;
+  width: 80%;
+  font-size: 0.8em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease;
+  z-index: 99;
+}
+
+.battle-controls {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+/* Battle buttons styling */
+.battle-btn {
+  padding: 15px 25px;
+  border: none;
+  border-radius: 5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.7em;
+  position: relative;
+  overflow: hidden;
+}
+
+.battle-btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+
+.battle-btn:hover:before {
+  width: 100%;
+}
+
+.battle-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-3px);
+}
+
+.battle-btn:active {
+  transform: translateY(1px);
+}
+
+.battle-btn i {
+  margin-right: 5px;
+}
+
+#attack-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+#defend-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#special-btn {
+  background-color: #9C27B0;
+  color: white;
+  position: relative;
+}
+
+#special-btn:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(45deg, transparent 0%, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%, transparent 100%);
+  background-size: 200% 100%;
+  animation: specialButtonGlow 3s linear infinite;
+}
+
+@keyframes specialButtonGlow {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+/* Game over screen styling */
+#game-over {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #516dff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#game-over.visible {
+  display: flex;
+}
+
+#final-score, #high-score {
+  margin: 15px 0;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.game-over-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Battle animations */
+.attack-animation {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: 10;
+  animation: attackPulse 1s forwards;
+}
+
+/* Customize attack animations based on insect type */
+.attack-animation.fly {
+  background-color: rgba(0, 191, 255, 0.5);
+  box-shadow: 0 0 20px rgb(0, 191, 255);
+}
+
+.attack-animation.mosquito {
+  background-color: rgba(220, 20, 60, 0.5);
+  box-shadow: 0 0 20px rgb(220, 20, 60);
+}
+
+.attack-animation.spider {
+  background-color: rgba(128, 0, 128, 0.5);
+  box-shadow: 0 0 20px rgb(128, 0, 128);
+}
+
+.attack-animation.roach {
+  background-color: rgba(165, 42, 42, 0.5);
+  box-shadow: 0 0 20px rgb(165, 42, 42);
+}
+
+@keyframes attackPulse {
+  0% { transform: scale(0.2); opacity: 0; }
+  50% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Defend animation */
+.defend-animation {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  z-index: 10;
+  animation: defendShield 1s forwards;
+}
+
+/* Customize defend animations based on insect type */
+.defend-animation.fly {
+  border: 5px solid rgba(0, 191, 255, 0.7);
+  box-shadow: inset 0 0 20px rgba(0, 191, 255, 0.5);
+}
+
+.defend-animation.mosquito {
+  border: 5px solid rgba(220, 20, 60, 0.7);
+  box-shadow: inset 0 0 20px rgba(220, 20, 60, 0.5);
+}
+
+.defend-animation.spider {
+  border: 5px solid rgba(128, 0, 128, 0.7);
+  box-shadow: inset 0 0 20px rgba(128, 0, 128, 0.5);
+}
+
+.defend-animation.roach {
+  border: 5px solid rgba(165, 42, 42, 0.7);
+  box-shadow: inset 0 0 20px rgba(165, 42, 42, 0.5);
+}
+
+@keyframes defendShield {
+  0% { transform: scale(0.5); opacity: 0; }
+  25% { transform: scale(1.1); opacity: 0.9; }
+  75% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+/* Special attack animations */
+@keyframes specialFly {
+  0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+  25% { transform: scale(1.2) rotate(90deg); filter: brightness(1.5) hue-rotate(180deg); }
+  50% { transform: scale(1.4) rotate(180deg); filter: brightness(2) hue-rotate(270deg); }
+  75% { transform: scale(1.2) rotate(270deg); filter: brightness(1.5) hue-rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); filter: brightness(1); }
+}
+
+@keyframes specialMosquito {
+  0% { transform: scale(1); filter: hue-rotate(0deg); }
+  25% { transform: scale(1.5) translate(0, -20px); filter: hue-rotate(90deg); }
+  50% { transform: scale(2) translate(0, -40px); filter: hue-rotate(180deg); }
+  75% { transform: scale(1.5) translate(0, -20px); filter: hue-rotate(270deg); }
+  100% { transform: scale(1); filter: hue-rotate(360deg); }
+}
+
+@keyframes specialSpider {
+  0% { opacity: 1; transform: scale(1); }
+  10% { opacity: 0.2; transform: translate(50px, 0) scale(0.8); }
+  20% { opacity: 0.2; transform: translate(-50px, 0) scale(0.8); }
+  30% { opacity: 0.2; transform: translate(0, -50px) scale(0.8); }
+  40% { opacity: 0.2; transform: translate(50px, 50px) scale(0.8); }
+  50% { opacity: 0.2; transform: translate(-50px, 50px) scale(0.8); }
+  60% { opacity: 0.8; transform: scale(1.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes specialRoach {
+  0% { transform: rotate(0) scale(1); }
+  25% { transform: rotate(180deg) scale(1.3); filter: sepia(1); }
+  50% { transform: rotate(360deg) scale(1.5); filter: sepia(1) contrast(1.5); }
+  75% { transform: rotate(540deg) scale(1.3); filter: sepia(1); }
+  100% { transform: rotate(720deg) scale(1); }
+}
+
+/* Level up animation */
+.level-up-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 215, 0, 0.7);
+  color: #333;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 1.5em;
+  animation: levelUp 2s forwards;
+  z-index: 100;
+  pointer-events: none;
+  box-shadow: 0 0 30px gold;
+  text-shadow: 0 0 5px white;
+}
+
+@keyframes levelUp {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+/* Point popup animation */
+.point-popup {
+  position: absolute;
+  color: gold;
+  text-shadow: 0 0 5px black;
+  font-weight: bold;
+  font-size: 1.2em;
+  z-index: 100;
+  pointer-events: none;
+  animation: pointPopup 1s forwards;
+}
+
+@keyframes pointPopup {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-50px); opacity: 0; }
+}
+
+/* Victory and defeat effects for battle mode */
+.victory-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0) 70%);
+  animation: victoryPulse 2s ease-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes victoryPulse {
+  0% { transform: scale(0.1); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.defeat-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.2);
+  animation: defeatFlash 2s ease-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes defeatFlash {
+  0%, 35%, 70% { opacity: 0.8; }
+  17.5%, 52.5%, 100% { opacity: 0; }
+}
+
+/* Score popup animation for battle mode */
+.score-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: gold;
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  animation: scorePopUp 2s forwards;
+  z-index: 20;
+}
+
+@keyframes scorePopUp {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  80% { transform: translate(-50%, -30%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+}
+
+/* New high score indication */
+.new-high-score {
+  color: gold;
+  font-size: 1.2em;
+  margin: 10px 0;
+  text-shadow: 0 0 10px rgba(255,215,0,0.5);
+  animation: pulse 1s infinite alternate;
+}
+
+/* Home screen high score display */
+.home-high-score {
+  margin-top: 20px;
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+/* Instructions panel styling */
+.instructions-panel {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.instructions-panel.visible {
+  display: flex;
+}
+
+.instructions-content {
+  background-color: #516dff;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.instruction-section {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.instruction-section h4 {
+  margin-bottom: 10px;
+}
+
+.instruction-section ul {
+  padding-left: 20px;
+}
+
+.instruction-section li {
+  margin: 5px 0;
+  font-size: 0.8em;
+}
+
+.close-instructions-btn {
+  margin-top: 20px;
+}
+
+/* Screen shake effect for powerful attacks */
+.screen-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Critical hit text animation */
+@keyframes criticalText {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  20% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+  80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+/* Explosion animation for special attacks */
+@keyframes explode {
+  0% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+/* In-game controls styling with fixed positioning */
+.in-game-controls {
+  position: fixed;
+  top: 55px; /* Moved down below the score and time displays */
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+
+/* Added specific styling for catch mode controls to avoid overlap with score */
+#game-container .in-game-controls {
+  top: 80px; /* Additional space in catch mode to avoid score overlap */
+}
+
+/* Enhanced control button visibility */
+.control-btn {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background for better contrast */
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5); /* More visible border */
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.6em;
+  cursor: pointer;
+  font-family: 'Press Start 2P', sans-serif;
+  transition: all 0.2s ease;
+  min-width: 120px; /* Set minimum width for consistency */
+}
+
+.control-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(-3px);
+}
+
+.control-btn i {
+  margin-right: 5px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .insects-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .battle-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .battle-btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .battle-stats {
+    width: 95%;
+  }
+  
+  .battle-message {
+    width: 95%;
+  }
+  
+  .instructions-content {
+    max-width: 95%;
+  }
+  
+  .in-game-controls {
+    top: auto;
+    bottom: 60px; /* Moves up from bottom to avoid overlap with any bottom elements */
+    right: 10px;
+  }
+  
+  .control-btn {
+    font-size: 0.5em;
+    padding: 4px 8px;
+  }
 }

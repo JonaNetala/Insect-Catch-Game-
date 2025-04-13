@@ -4,52 +4,216 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Catch The Insect</title>
+    <title>Ultimate Insect Battle</title>
+    <!-- Font Awesome for icons and visual enhancements -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
+    <!-- Animated background overlay -->
+    <div class="background-animation"></div>
+
+    <!-- First screen with game title and mode selection -->
     <div class="screen">
-      <h1>Catch The Insect</h1>
-      <button class="btn" id="start-btn">Play Game</button>
+      <h1>Ultimate Insect Battle</h1>
+      <p class="game-description">Catch insects or watch them battle!</p>
+      
+      <!-- Enhanced mode selection buttons with icons -->
+      <div class="mode-selection">
+        <button class="btn" id="catch-mode-btn">
+          <i class="fas fa-hand-paper"></i> Catch Mode
+        </button>
+        <button class="btn" id="battle-mode-btn">
+          <i class="fas fa-fist-raised"></i> Battle Mode
+        </button>
+        
+        <!-- Added instructions button -->
+        <button class="btn" id="instructions-btn">
+          <i class="fas fa-question-circle"></i> How to Play
+        </button>
+        
+        <!-- Added high score display on home screen -->
+        <div class="home-high-score">
+          High Score: <span id="home-high-score-value">0</span>
+        </div>
+      </div>
+      
+      <!-- Instructions panel (initially hidden) -->
+      <div class="instructions-panel">
+        <div class="instructions-content">
+          <h3>How to Play</h3>
+          
+          <div class="instruction-section">
+            <h4>Catch Mode</h4>
+            <p>Click on insects to catch them before they multiply out of control!</p>
+            <ul>
+              <li>Each insect caught gives you points based on its type</li>
+              <li>The game gets harder as you level up</li>
+              <li>Higher levels give more points per catch</li>
+            </ul>
+          </div>
+          
+          <div class="instruction-section">
+            <h4>Battle Mode</h4>
+            <p>Select your insect and battle against enemy insects!</p>
+            <ul>
+              <li>Each insect has different Power and Speed stats</li>
+              <li>Take turns attacking, defending, or using special moves</li>
+              <li>Win battles to earn bonus points</li>
+            </ul>
+          </div>
+          
+          <button class="btn close-instructions-btn">Close</button>
+        </div>
+      </div>
     </div>
 
+    <!-- Second screen with insect selection -->
     <div class="screen">
-      <h1>What is your "favorite" insect?</h1>
+      <h1>Choose Your Insect</h1>
       <ul class="insects-list">
         <li>
-          <button class="choose-insect-btn">
+          <button class="choose-insect-btn" data-power="5" data-speed="8">
             <p>Fly</p>
             <img src="http://pngimg.com/uploads/fly/fly_PNG3946.png" alt="fly">
+            <div class="insect-stats">
+              <div class="stat-label">Power</div>
+              <div class="stat-bar power" style="width: 50%"></div>
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar speed" style="width: 80%"></div>
+            </div>
           </button>
         </li>
         <li>
-          <button class="choose-insect-btn">
+          <button class="choose-insect-btn" data-power="7" data-speed="7">
             <p>Mosquito</p>
-            <img src="http://pngimg.com/uploads/mosquito/mosquito_PNG18175.png" alt="mosquito">
+            <img
+               src="http://pngimg.com/uploads/mosquito/mosquito_PNG18175.png"
+               alt="mosquito"
+               />
+            <div class="insect-stats">
+              <div class="stat-label">Power</div>
+              <div class="stat-bar power" style="width: 70%"></div>
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar speed" style="width: 70%"></div>
+            </div>
           </button>
         </li>
         <li>
-          <button class="choose-insect-btn">
+          <button class="choose-insect-btn" data-power="9" data-speed="4">
             <p>Spider</p>
-            <img src="http://pngimg.com/uploads/spider/spider_PNG12.png" alt="spider">
+            <img
+               src="http://pngimg.com/uploads/spider/spider_PNG12.png"
+               alt="spider"
+               />
+            <div class="insect-stats">
+              <div class="stat-label">Power</div>
+              <div class="stat-bar power" style="width: 90%"></div>
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar speed" style="width: 40%"></div>
+            </div>
           </button>
         </li>
         <li>
-          <button class="choose-insect-btn">
+          <button class="choose-insect-btn" data-power="8" data-speed="5">
             <p>Roach</p>
-            <img src="http://pngimg.com/uploads/roach/roach_PNG12163.png" alt="roach">
+            <img
+               src="http://pngimg.com/uploads/roach/roach_PNG12163.png"
+               alt="roach"
+               />
+            <div class="insect-stats">
+              <div class="stat-label">Power</div>
+              <div class="stat-bar power" style="width: 80%"></div>
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar speed" style="width: 50%"></div>
+            </div>
           </button>
         </li>
       </ul>
     </div>
 
+    <!-- Battle arena screen for insect battles -->
+    <div class="screen battle-arena" id="battle-arena">
+      <h3 id="battle-timer" class="time">Time: 00:00</h3>
+      <!-- Battle statistics display -->
+      <div class="battle-stats">
+        <div id="player-stats" class="player-stats">
+          <h4>Your Insect</h4>
+          <div class="health-bar-container">
+            <div id="player-health" class="health-bar"></div>
+          </div>
+        </div>
+        <div id="enemy-stats" class="enemy-stats">
+          <h4>Opponent</h4>
+          <div class="health-bar-container">
+            <div id="enemy-health" class="health-bar"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Battle message area for combat feedback -->
+      <div id="battle-message" class="battle-message"></div>
+      <!-- Battle controls for player actions -->
+      <div id="battle-controls" class="battle-controls">
+        <button id="attack-btn" class="battle-btn"><i class="fas fa-gavel"></i> Attack</button>
+        <button id="defend-btn" class="battle-btn"><i class="fas fa-shield-alt"></i> Defend</button>
+        <button id="special-btn" class="battle-btn"><i class="fas fa-bolt"></i> Special</button>
+      </div>
+      
+      <!-- In-game controls for battle mode -->
+      <div class="in-game-controls">
+        <button class="control-btn" id="battle-reset-btn">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+        <button class="control-btn" id="battle-switch-mode-btn">
+          <i class="fas fa-exchange-alt"></i> Catch Mode
+        </button>
+        <button class="control-btn" id="battle-menu-btn">
+          <i class="fas fa-home"></i> Main Menu
+        </button>
+      </div>
+    </div>
+
+    <!-- Game screen for catch mode -->
     <div class="screen game-container" id="game-container">
       <h3 id="time" class="time">Time: 00:00</h3>
       <h3 id="score" class="score">Score: 0</h3>
+      <!-- Level indicator for progress system -->
+      <div id="level-indicator" class="level-indicator">Level: 1</div>
       <h5 id="message" class="message">
         Are you annoyed yet? <br>
         You are playing an impossible game!
       </h5>
+      
+      <!-- In-game controls for catch mode -->
+      <div class="in-game-controls">
+        <button class="control-btn" id="catch-reset-btn">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+        <button class="control-btn" id="catch-switch-mode-btn">
+          <i class="fas fa-exchange-alt"></i> Battle Mode
+        </button>
+        <button class="control-btn" id="catch-menu-btn">
+          <i class="fas fa-home"></i> Main Menu
+        </button>
+      </div>
+    </div>
+
+    <!-- Enhanced game over screen with more options -->
+    <div class="screen" id="game-over">
+      <h1>Game Over</h1>
+      <div id="final-score">Your Score: 0</div>
+      <div id="high-score">High Score: 0</div>
+      <div class="game-over-buttons">
+        <button class="btn" id="play-again-btn">
+          <i class="fas fa-redo"></i> Play Again
+        </button>
+        <button class="btn" id="switch-mode-btn">
+          <i class="fas fa-exchange-alt"></i> Switch Mode
+        </button>
+        <button class="btn" id="return-home-btn">
+          <i class="fas fa-home"></i> Main Menu
+        </button>
+      </div>
     </div>
   </body>
 </html>
